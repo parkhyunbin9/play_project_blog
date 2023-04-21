@@ -1,0 +1,60 @@
+// Use DBML to define your database structure
+// Docs: https://github.com/holistics/dbml/tree/master/dbml-homepage/docs
+
+Table posts {
+  post_id long [primary key, increment]
+  title varchar [default: 'untitled']
+  body text [default: 'empty' ]
+  user_id long [ref: > users.id]
+  tag_id long [ref: > tags.tag_id]
+  image_id long [ref: > images.image_id]
+  comment_id long [ref: > comments.comment_id]
+  status post_status
+  updated_at timestamp [default: 'now()', note: 'DateTime']
+  created_at timestamp [default: 'now()', note: 'DateTime']
+}
+Table posttag {
+  post_tag_id long [primary key, increment]
+  post_id long [ref: ]
+}
+Table tags {
+  tag_id long [primary key, increment]
+  name varchar
+  updated_at timestamp [default: 'now()', note: 'DateTime']
+  created_at timestamp [default: 'now()', note: 'DateTime']
+}
+
+Table images {
+  image_id long [primary key, increment]
+  url varchar
+  updated_at timestamp [default: 'now()', note: 'DateTime']
+  created_at timestamp [default: 'now()', note: 'DateTime']
+}
+
+Table users {
+  id integer [primary key]
+  username varchar
+  role varchar
+  nickname varchar
+  updated_at timestamp [default: 'now()', note: 'DateTime']
+  created_at timestamp [default: 'now()', note: 'DateTime']
+}
+
+Table comments {
+  comment_id long [primary key, increment]
+  user_id long [ref: > users.id]
+  updated_at timestamp [default: 'now()', note: 'DateTime']
+  created_at timestamp [default: 'now()', note: 'DateTime']
+}
+
+enum post_status {
+  draft
+  posted
+  modified
+  deleted
+}
+
+
+
+
+
