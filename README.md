@@ -28,5 +28,5 @@
 
 ### 설계 
 
-![ERD](./blog_erd.png)
+![ERD](./BLOG_SERVICE_ERD.png)
 

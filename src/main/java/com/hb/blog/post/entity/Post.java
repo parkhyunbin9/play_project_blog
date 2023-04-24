@@ -1,15 +1,21 @@
 package com.hb.blog.post.entity;
 
+import com.hb.blog.comment.entity.Comment;
 import com.hb.blog.common.entity.BaseEntity;
+import com.hb.blog.user.entity.Member;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Entity(name = "posts")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseEntity {
 
     @Id
@@ -26,13 +32,26 @@ public class Post extends BaseEntity {
     private String body;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Long userId;
+    @JoinColumn(name = "member_id")
+    private Member userId;
 
-    @OneToMany(mappedBy = "tag")
-    private List<Tag> tagId = new ArrayList<>();
+    @OneToMany(mappedBy = "post")
+    private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "image_id")
-    private List<Image> imageId = new ArrayList<>();
+    @OneToMany(mappedBy = "post")
+    private List<Image> imageList = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private PostStatus status;
+
+    @OneToMany(mappedBy = "post")
+    private List<PostTag> postTagsList = new ArrayList<>();
+
+    @Transient
+    private List<Tag> tagList = new ArrayList<>();
+
+    public List<Tag> searchAllTags(){
+        return postTagsList.stream().map(postTag -> postTag.getTag()).collect(Collectors.toList());
+    }
 
 }

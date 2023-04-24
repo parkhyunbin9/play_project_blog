@@ -1,6 +1,5 @@
 package com.hb.blog.post.entity;
 
-import com.hb.blog.common.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,20 +8,23 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "images")
-public class Image extends BaseEntity {
+@Entity
+public class PostTag {
 
     @Id
-    @Column(name = "image_id")
+    @Column(name = "post_tag_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Lob
     @Column
-    private byte url;
+    private Long user_count;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "tag_id")
+    private Tag tag;
 
 }
