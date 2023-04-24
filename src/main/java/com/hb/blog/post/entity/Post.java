@@ -33,7 +33,7 @@ public class Post extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member userId;
+    private Member member;
 
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
@@ -47,11 +47,13 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     private List<PostTag> postTagsList = new ArrayList<>();
 
-    @Transient
-    private List<Tag> tagList = new ArrayList<>();
-
     public List<Tag> searchAllTags(){
         return postTagsList.stream().map(postTag -> postTag.getTag()).collect(Collectors.toList());
     }
+
+
+
+
+
 
 }
