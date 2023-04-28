@@ -1,0 +1,27 @@
+spring:
+
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:tcp://localhost/~/blog;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      username: sa
+      password: 1234
+      driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+    sql:
+      init:
+        mode: always # Spring Boot >=v2.5.0
+#        schema-locations: classpath:db/local/schema.sql
+#        data-locations: classpath:db/local/data.sql
+
+    server:
+      shutdown: graceful

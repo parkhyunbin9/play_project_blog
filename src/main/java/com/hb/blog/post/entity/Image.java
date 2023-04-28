@@ -2,14 +2,15 @@ package com.hb.blog.post.entity;
 
 import com.hb.blog.common.entity.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "images")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Image extends BaseEntity {
 
     @Id
@@ -25,9 +26,13 @@ public class Image extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public void addImage(Post post) {
+    public void attachToPost(Post post) {
         this.post = post;
-        if(post != null) post.getImageList().add(this);
     }
 
+    @Builder
+    public Image(byte url, Post post) {
+        this.url = url;
+        this.post = post;
+    }
 }

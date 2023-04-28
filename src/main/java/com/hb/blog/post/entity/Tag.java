@@ -1,6 +1,7 @@
 package com.hb.blog.post.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,8 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "tags")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {
 
     @Id
@@ -20,4 +21,9 @@ public class Tag {
     @Column
     @NotEmpty
     private String name;
+
+    @Builder
+    public Tag(String name) {
+        this.name = name;
+    }
 }

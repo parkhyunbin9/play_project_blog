@@ -4,6 +4,7 @@ import com.hb.blog.comment.entity.Comment;
 import com.hb.blog.common.entity.BaseEntity;
 import com.hb.blog.user.entity.Member;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -51,9 +52,25 @@ public class Post extends BaseEntity {
         return postTagsList.stream().map(postTag -> postTag.getTag()).collect(Collectors.toList());
     }
 
+    public void addTag(Tag tag) {
+        PostTag postTag = PostTag.builder().post(this).tag(tag).user_count(1L).build();
+        this.postTagsList.add(postTag);
+    }
+
+    public void addImage(Image image) {
+        this.imageList.add(image);
+        image.attachToPost(this);
+    }
 
 
-
-
-
+    @Builder
+    public Post(String title, String body, Member member, List<Comment> commentList, List<Image> imageList, PostStatus status, List<PostTag> postTagsList) {
+        this.title = title;
+        this.body = body;
+        this.member = member;
+        this.commentList = commentList;
+        this.imageList = imageList;
+        this.status = status;
+        this.postTagsList = postTagsList;
+    }
 }

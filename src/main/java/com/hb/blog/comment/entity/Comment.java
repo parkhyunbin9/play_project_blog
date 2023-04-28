@@ -4,14 +4,15 @@ import com.hb.blog.common.entity.BaseEntity;
 import com.hb.blog.post.entity.Post;
 import com.hb.blog.user.entity.Member;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "comments")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseEntity {
 
     @Id
@@ -36,4 +37,10 @@ public class Comment extends BaseEntity {
         post.getCommentList().add(this);
     }
 
+    @Builder
+    public Comment(String body, Member member, Post post) {
+        this.body = body;
+        this.member = member;
+        this.post = post;
+    }
 }

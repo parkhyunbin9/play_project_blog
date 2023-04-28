@@ -1,14 +1,15 @@
 package com.hb.blog.post.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostTag {
 
     @Id
@@ -27,10 +28,10 @@ public class PostTag {
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
-    public void addTag(Post post, Tag tag) {
+    @Builder
+    public PostTag(Long user_count, Post post, Tag tag) {
+        this.user_count = user_count;
         this.post = post;
         this.tag = tag;
-        post.getPostTagsList().add(this);
     }
-
 }
