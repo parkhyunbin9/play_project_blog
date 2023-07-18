@@ -1,6 +1,8 @@
 package com.hb.blog.common.entity;
 
 
+import com.hb.blog.user.entity.Member;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,6 +14,9 @@ public abstract class BaseEntity {
 
     @Column(name = "update_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    protected BaseEntity() {
+    }
 
     @PrePersist
     protected void onCreate() {

@@ -58,7 +58,7 @@ class PostRepositoryTest {
                 .title("테스트")
                 .body("테스트입니다.")
                 .member(testMember)
-                .postTagsList(List.of(postTag))
+//                .postTags((postTag))
                 .status(PostStatus.draft)
                 .imageList(List.of(testImage))
                 .commentList(new ArrayList<>())

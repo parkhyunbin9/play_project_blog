@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Getter
 @Entity(name = "images")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,9 +24,16 @@ public class Image extends BaseEntity {
     @Column
     private byte url;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @Enumerated(EnumType.STRING)
+    private ImageStatus imageStatus = ImageStatus.publish;
+
+    public void detachPost(Post post) {
+        this.imageStatus = ImageStatus.delete;
+    }
 
     public void attachToPost(Post post) {
         this.post = post;
