@@ -1,6 +1,7 @@
 package com.hb.blog.comment.entity;
 
 import com.hb.blog.common.entity.BaseEntity;
+import com.hb.blog.post.entity.CommentStatus;
 import com.hb.blog.post.entity.Post;
 import com.hb.blog.user.entity.Member;
 import lombok.AccessLevel;
@@ -34,9 +35,18 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @Enumerated(EnumType.STRING)
+    private CommentStatus commentStatus;
+
     public void addComment(Post post) {
         this.post = post;
         post.getCommentList().add(this);
+        this.commentStatus = CommentStatus.publish;
+    }
+
+    public void removeComment() {
+        this.post = null;
+        this.commentStatus = CommentStatus.delete;
     }
 
     @Builder
@@ -44,5 +54,6 @@ public class Comment extends BaseEntity {
         this.body = body;
         this.member = member;
         this.post = post;
+        this.commentStatus = CommentStatus.publish;
     }
 }

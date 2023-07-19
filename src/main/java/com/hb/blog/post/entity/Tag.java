@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PositiveOrZero;
 
 @Getter
 @Entity(name = "tags")
@@ -22,8 +23,21 @@ public class Tag {
     @NotEmpty
     private String name;
 
+    @Column
+    @PositiveOrZero
+    private Long user_count;
+
+    public void detachTag() {
+        this.user_count = (this.user_count > 0) ? this.user_count-1 : 0L;
+    }
+
+    public void attachTag() {
+        this.user_count++;
+    }
+
     @Builder
-    public Tag(String name) {
+    public Tag(String name, Long user_count) {
         this.name = name;
+        this.user_count = 0L;
     }
 }

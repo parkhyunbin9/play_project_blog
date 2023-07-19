@@ -47,7 +47,7 @@ class PostRepositoryTest {
 
         PostTag postTag = PostTag.builder()
                 .tag(testTag1)
-                .user_count(1L)
+
                 .build();
 
         Image testImage = Image.builder()

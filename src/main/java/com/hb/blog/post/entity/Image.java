@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.Optional;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
@@ -32,6 +34,7 @@ public class Image extends BaseEntity {
     private ImageStatus imageStatus = ImageStatus.publish;
 
     public void detachPost(Post post) {
+        this.post = null;
         this.imageStatus = ImageStatus.delete;
     }
 

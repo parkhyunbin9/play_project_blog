@@ -48,6 +48,9 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PostStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private CommentAuth commentAuth;
+
     @OneToMany(mappedBy = "post")
     private Set<PostTag> postTags;
 
@@ -56,8 +59,17 @@ public class Post extends BaseEntity {
     }
 
     public void addTag(Tag tag) {
-        PostTag postTag = PostTag.builder().post(this).tag(tag).user_count(1L).build();
+        tag.attachTag();
+        PostTag postTag = PostTag.builder().post(this).tag(tag).build();
         this.postTags.add(postTag);
+    }
+
+    public void addTag(List<Tag> tags) {
+        tags.stream().forEach(tag -> {
+            tag.attachTag();
+            PostTag postTag = PostTag.builder().post(this).tag(tag).build();
+            this.postTags.add(postTag);
+        });
     }
 
     public void removeTag(Tag tag) {
@@ -66,7 +78,7 @@ public class Post extends BaseEntity {
                 .findAny()
                 .ifPresent(postTag -> {
                     this.postTags.remove(postTag);
-                    postTag.removeTagFromPost(this);
+                    postTag.getTag().detachTag();
                 });
     }
 
@@ -75,14 +87,27 @@ public class Post extends BaseEntity {
         image.attachToPost(this);
     }
 
+    public void addImage(List<Image> images) {
+        images.stream().forEach(image -> {
+            this.imageList.add(image);
+            image.attachToPost(this);
+        });
+    }
+
+    public void removeImage(Image image) {
+        this.imageList.remove(image);
+        image.detachPost(this);
+    }
+
     @Builder
-    public Post(String title, String body, Member member, List<Comment> commentList, List<Image> imageList, PostStatus status, Set<PostTag> postTags) {
+    public Post(String title, String body, Member member, CommentAuth commentAuth, List<Comment> commentList, List<Image> imageList, PostStatus status, Set<PostTag> postTags) {
         this.title = title;
         this.body = body;
         this.member = member;
         this.commentList = (CollectionUtils.isEmpty(commentList)) ? new ArrayList<>() : commentList;
         this.imageList  = (CollectionUtils.isEmpty(imageList))? new ArrayList<>() : imageList;
-        this.status = status;
+        this.status = PostStatus.publish;
+        this.commentAuth = CommentAuth.Any;
         this.postTags = (CollectionUtils.isEmpty(postTags)) ? new HashSet<>() : postTags;
     }
 }

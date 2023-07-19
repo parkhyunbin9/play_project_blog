@@ -19,8 +19,6 @@ public class PostTag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
-    private Long user_count;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
@@ -31,15 +29,13 @@ public class PostTag {
     private Tag tag;
 
 
-
-    public void removeTagFromPost(Post post) {
-        post.getPostTags().remove(this);
-        this.user_count = (this.getUser_count() > 0) ? user_count-- : 0;
+    public void removeTagFromPost() {
+        this.post.getPostTags().remove(this);
+        this.tag.detachTag();
     }
 
     @Builder
-    public PostTag(Long user_count, Post post, Tag tag) {
-        this.user_count = user_count;
+    public PostTag(Post post, Tag tag) {
         this.post = post;
         this.tag = tag;
     }
