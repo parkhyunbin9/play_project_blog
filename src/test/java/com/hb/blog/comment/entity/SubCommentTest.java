@@ -4,6 +4,8 @@ import com.hb.blog.post.entity.CommentStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("대댓글 Entity - 연관관계 편의 메서드")
@@ -32,6 +34,7 @@ class SubCommentTest {
     @Test
     @DisplayName("대댓글 삭제")
     void removeSubCommentTest() {
+
         // Given
         Comment targetComment = Comment.builder().build();
         SubComment testSubComment = SubComment.builder().body("테스트 대댓글").build();
@@ -51,4 +54,29 @@ class SubCommentTest {
 
     }
 
+    @Test
+    @DisplayName("댓글 - 대댓글 - 대댓글 관계")
+    void subCommentTest() {
+
+        // Given
+        String firstReply = "테스트 대댓글";
+        String secondReply = "테스트 대댓글의 자식";
+        List<String> replyList = List.of(firstReply, secondReply);
+
+        Comment targetComment = Comment.builder().build();
+        SubComment testSubComment = SubComment.builder().body(firstReply).build();
+        SubComment testSubChildComment = SubComment.builder().body(secondReply).build();
+
+        // When
+        testSubComment.addSubComment(targetComment);
+        testSubChildComment.addSubComment(targetComment);
+
+        // Then
+        assertThat(targetComment.getSubComments()).containsAll(List.of(testSubComment, testSubChildComment));
+
+        targetComment.getSubComments().forEach(subComment -> {
+            int index = targetComment.getSubComments().indexOf(subComment);
+            assertThat(subComment.getBody()).isEqualTo(replyList.get(index));
+        });
+    }
 }
