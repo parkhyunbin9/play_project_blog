@@ -2,7 +2,6 @@ package com.hb.blog.comment.entity;
 
 import com.hb.blog.common.entity.BaseEntity;
 import com.hb.blog.post.entity.CommentStatus;
-import com.hb.blog.post.entity.Post;
 import com.hb.blog.user.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,19 +10,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Getter
-@Entity(name = "comment")
+@Entity(name = "subcomment")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment extends BaseEntity {
+public class SubComment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "comment_id")
+    @Column(name = "subcomment_id")
     private Long id;
 
     @Lob
@@ -35,33 +31,29 @@ public class Comment extends BaseEntity {
     private Member member;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
-
-    @OneToMany(mappedBy = "parentComment")
-    private List<SubComment> subComments;
+    @JoinColumn(name = "parent_comment_id")
+    private Comment parentComment;
 
     @Enumerated(EnumType.STRING)
     private CommentStatus commentStatus;
 
-    public void addComment(Post post) {
-        this.post = post;
-        post.getCommentList().add(this);
+    public void addSubComment(Comment comment) {
+        this.parentComment = comment;
         this.commentStatus = CommentStatus.publish;
+        comment.getSubComments().add(this);
     }
 
-    public void removeComment() {
-        this.post.getCommentList().remove(this);
+    public void removeSubComment() {
         this.commentStatus = CommentStatus.delete;
-        this.post = null;
+        this.parentComment.getSubComments().remove(this);
+        this.parentComment = null;
     }
 
     @Builder
-    public Comment(String body, Member member, Post post, List<SubComment> subComments) {
+    public SubComment(String body, Member member, Comment parentComment, CommentStatus commentStatus) {
         this.body = body;
         this.member = member;
-        this.post = post;
+        this.parentComment = parentComment;
         this.commentStatus = CommentStatus.publish;
-        this.subComments = new ArrayList<>();
     }
 }
