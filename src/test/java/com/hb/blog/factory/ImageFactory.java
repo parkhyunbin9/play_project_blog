@@ -8,13 +8,13 @@ public class ImageFactory {
 
     public static Image getImage() {
         return Image.builder()
-                .url(new Byte(UUID.randomUUID().toString()))
+                .imagePath(UUID.randomUUID().toString())
                 .build();
     }
 
     public static Image getImage(String url) {
         return Image.builder()
-                .url(new Byte(url))
+                .imagePath(url)
                 .build();
     }
 

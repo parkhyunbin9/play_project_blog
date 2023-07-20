@@ -17,7 +17,7 @@ import java.util.List;
 import static javax.persistence.FetchType.*;
 
 @Getter
-@Entity(name = "comment")
+@Entity(name = "comments")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseEntity {
 

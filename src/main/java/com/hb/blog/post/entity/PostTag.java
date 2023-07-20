@@ -10,7 +10,7 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
-@Entity
+@Entity(name = "post_tags")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostTag {
 

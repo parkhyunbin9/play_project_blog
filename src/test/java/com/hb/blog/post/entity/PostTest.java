@@ -121,8 +121,8 @@ class PostTest {
     void removeImageTest() {
 
         // Given
-        Image testImage = Image.builder().url(new Byte("1")).build();
-        Image removeImage = Image.builder().url(new Byte("2")).build();
+        Image testImage = Image.builder().imagePath("1").build();
+        Image removeImage = Image.builder().imagePath("2").build();
 
         Post newPost = Post.builder()
                 .member(buildTestMember())

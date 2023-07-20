@@ -27,7 +27,7 @@ public class Post extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long postId;
 
-    @Column(columnDefinition = "default untitle")
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'untitled'")
     @Size(max = 50)// varchar 50 대략 한글 25~30자 내 한글 1 = 3 bytes
     private String title;
 
@@ -96,7 +96,7 @@ public class Post extends BaseEntity {
 
     public void removeImage(Image image) {
         this.imageList.remove(image);
-        image.detachPost(this);
+        image.detachPost();
     }
 
     @Builder

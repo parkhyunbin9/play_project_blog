@@ -51,7 +51,7 @@ class PostRepositoryTest {
                 .build();
 
         Image testImage = Image.builder()
-                .url(new Byte("abc"))
+                .imagePath("abc")
                 .build();
 
         return Post.builder()

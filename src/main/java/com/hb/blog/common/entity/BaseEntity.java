@@ -2,11 +2,13 @@ package com.hb.blog.common.entity;
 
 
 import com.hb.blog.user.entity.Member;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
+@Getter
 public abstract class BaseEntity {
 
     @Column(name = "created_at", nullable = false)

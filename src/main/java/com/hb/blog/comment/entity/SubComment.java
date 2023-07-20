@@ -13,7 +13,7 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
-@Entity(name = "subcomment")
+@Entity(name = "subcomments")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SubComment extends BaseEntity {
 

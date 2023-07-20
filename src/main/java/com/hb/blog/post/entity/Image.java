@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.util.Optional;
-
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
@@ -22,9 +20,8 @@ public class Image extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Lob
     @Column
-    private byte url;
+    private String imagePath;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
@@ -33,18 +30,19 @@ public class Image extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ImageStatus imageStatus = ImageStatus.publish;
 
-    public void detachPost(Post post) {
+    public void detachPost() {
         this.post = null;
         this.imageStatus = ImageStatus.delete;
     }
 
     public void attachToPost(Post post) {
         this.post = post;
+        this.imageStatus = ImageStatus.publish;
     }
 
     @Builder
-    public Image(byte url, Post post) {
-        this.url = url;
+    public Image(String imagePath, Post post) {
+        this.imagePath = imagePath;
         this.post = post;
     }
 }
