@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -28,7 +27,7 @@ class ImageRepositoryTest {
     private PostRepository postRepository;
 
     @Test
-    @Rollback(value = false)
+//    @Rollback(value = false)
     @DisplayName("이미지 저장 성공 테스트")
     void saveImageTest() {
 
@@ -64,6 +63,7 @@ class ImageRepositoryTest {
         Image saveImage2 = generateImage(imagePath2);
 
         Image dbImage1 = imageRepository.save(saveImage1);
+        imageRepository.save(saveImage2);
 
         //When
         List<Image> savedImageList = imageRepository.findAll();
